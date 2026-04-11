@@ -1,0 +1,171 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww28600\viewh15500\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 -- ============================================\
+-- PROJECT: Data Quality & Performance Analysis\
+-- ============================================\
+\
+-- ============================================\
+-- 1. TOTAL VISITS\
+-- ============================================\
+\
+SELECT\
+    COUNT(*) AS total_visits\
+FROM visits2;\
+\
+\
+-- ============================================\
+-- 2. MISSING DATA CHECK\
+-- ============================================\
+\
+SELECT\
+    COUNT(*) AS missing_visits\
+FROM visits2\
+WHERE clientid IS NULL\
+   OR visitdate IS NULL\
+   OR careworkerid IS NULL;\
+\
+\
+-- ============================================\
+-- 3. LATE VISITS CHECK\
+-- ============================================\
+\
+SELECT\
+    COUNT(*) AS late_visits\
+FROM visits2\
+WHERE visitdate IS NOT NULL\
+  AND completedvisitdate IS NOT NULL\
+  AND completedvisitdate <> visitdate;\
+\
+\
+-- ============================================\
+-- 4. KPI SUMMARY (TOTAL, MISSING, LATE, %)\
+-- ============================================\
+\
+SELECT\
+    COUNT(*) AS total_visits,\
+\
+    SUM(CASE\
+        WHEN clientid IS NULL\
+          OR visitdate IS NULL\
+          OR careworkerid IS NULL\
+        THEN 1 ELSE 0\
+    END) AS missing_visits,\
+\
+    SUM(CASE\
+        WHEN visitdate IS NOT NULL\
+         AND completedvisitdate IS NOT NULL\
+         AND completedvisitdate <> visitdate\
+        THEN 1 ELSE 0\
+    END) AS late_visits,\
+\
+    SUM(CASE\
+        WHEN clientid IS NULL\
+          OR visitdate IS NULL\
+          OR careworkerid IS NULL\
+        THEN 1 ELSE 0\
+    END) * 100.0 / COUNT(*) AS missing_percentage,\
+\
+    SUM(CASE\
+        WHEN visitdate IS NOT NULL\
+         AND completedvisitdate IS NOT NULL\
+         AND completedvisitdate <> visitdate\
+        THEN 1 ELSE 0\
+    END) * 100.0 / COUNT(*) AS late_percentage\
+\
+FROM visits2;\
+\
+\
+-- ============================================\
+-- 5. LATE VISITS BY CLIENT\
+-- ============================================\
+\
+SELECT\
+    c.clientname,\
+    COUNT(*) AS total_visits,\
+\
+    SUM(CASE\
+        WHEN v.visitdate IS NOT NULL\
+         AND v.completedvisitdate IS NOT NULL\
+         AND v.completedvisitdate <> v.visitdate\
+        THEN 1 ELSE 0\
+    END) AS late_visits\
+\
+FROM visits2 v\
+LEFT JOIN clients c\
+    ON v.clientid = c.clientid\
+\
+GROUP BY c.clientname\
+ORDER BY late_visits DESC;\
+\
+\
+-- ============================================\
+-- 6. LATE VISITS BY TEAM\
+-- ============================================\
+\
+SELECT\
+    cw.team,\
+    COUNT(*) AS total_visits,\
+\
+    SUM(CASE\
+        WHEN v.visitdate IS NOT NULL\
+         AND v.completedvisitdate IS NOT NULL\
+         AND v.completedvisitdate <> v.visitdate\
+        THEN 1 ELSE 0\
+    END) AS late_visits,\
+\
+    SUM(CASE\
+        WHEN v.visitdate IS NOT NULL\
+         AND v.completedvisitdate IS NOT NULL\
+         AND v.completedvisitdate <> v.visitdate\
+        THEN 1 ELSE 0\
+    END) * 100.0 / COUNT(*) AS late_percentage\
+\
+FROM visits2 v\
+LEFT JOIN careworkers cw\
+    ON v.careworkerid = cw.careworkerid\
+\
+GROUP BY cw.team\
+ORDER BY late_percentage DESC;\
+\
+\
+-- ============================================\
+-- 7. PROBLEMATIC VISITS (MISSING OR LATE)\
+-- ============================================\
+\
+SELECT\
+    cw.careworkername,\
+    cw.team,\
+    COUNT(*) AS total_visits,\
+\
+    SUM(\
+        CASE\
+            WHEN v.clientid IS NULL\
+              OR v.visitdate IS NULL\
+              OR v.careworkerid IS NULL\
+              OR (\
+                    v.visitdate IS NOT NULL\
+                AND v.completedvisitdate IS NOT NULL\
+                AND v.completedvisitdate <> v.visitdate\
+              )\
+            THEN 1\
+            ELSE 0\
+        END\
+    ) AS problematic_visits\
+\
+FROM visits2 v\
+LEFT JOIN careworkers cw\
+    ON v.careworkerid = cw.careworkerid\
+\
+GROUP BY cw.careworkername, cw.team\
+ORDER BY problematic_visits DESC;\
+\
+\
+-- ============================================\
+-- END OF FILE\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\qc\partightenfactor0
+\cf0 -- ============================================}
