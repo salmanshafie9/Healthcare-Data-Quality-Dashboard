@@ -4,18 +4,20 @@ Overview
 
 This project analyses visit-level operational data to monitor data quality and performance. The focus is on identifying missing data, late reporting, and areas of operational risk across clients, careworkers, and teams.
 
-🔍 Key Features
+Key Features
 Identified missing and incomplete records using SQL conditional logic
 Analysed late reporting using visit and completion timestamps
 Built a relational data model linking visits, clients, and careworkers
 Developed a Power BI dashboard with interactive filtering and KPIs
 Enabled analysis across team, region, and client dimensions
-📈 Key Metrics
+
+Key Metrics
 Total Visits
 Missing Data Rate
 Late Visit Rate
 Problematic Visits (late OR missing)
-🛠 Tools Used
+
+Tools Used
 SQL (joins, aggregation, CASE WHEN)
 Power BI (data modelling, DAX measures, dashboards)
 Excel (data preparation)
