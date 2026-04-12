@@ -24,3 +24,7 @@ Excel (data preparation)
 Business Value
 
 This dashboard helps identify data quality issues and operational inefficiencies, enabling better monitoring of performance and targeted improvements across teams and regions.
+
+## Dashboard Preview
+
+![Dashboard](dashboard.png)
