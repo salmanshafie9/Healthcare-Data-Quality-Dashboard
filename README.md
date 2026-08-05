@@ -1,4 +1,4 @@
-# data-quality-dashboard
+# Healthcare-Data-Quality-Dashboard
 Operational Data Quality & Performance Dashboard
 Overview
 
