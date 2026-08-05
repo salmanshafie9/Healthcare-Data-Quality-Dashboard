@@ -27,5 +27,5 @@ This dashboard helps identify data quality issues and operational inefficiencies
 
 ## Dashboard Preview
 
-![Dashboard](dashboard1.png)
+![Dashboard](Dashboard.png)
 
