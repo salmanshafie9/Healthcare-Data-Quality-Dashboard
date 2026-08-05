@@ -1,8 +1,8 @@
-# Healthcare-Data-Quality-Dashboard
-Operational Data Quality & Performance Dashboard
-Overview
+# Healthcare Data Quality Dashboard
 
-This project analyses visit-level operational data to monitor data quality and performance. The focus is on identifying missing data, late reporting, and areas of operational risk across clients, careworkers, and teams.
+## Overview
+
+This project analyses healthcare operational data using SQL and Power BI to monitor data quality and service performance. The dashboard focuses on identifying missing data, late visit reporting and operational risks across clients, careworkers and teams, providing managers with clear insights to support performance monitoring and improve data quality.
 
 Key Features
 Identified missing and incomplete records using SQL conditional logic
