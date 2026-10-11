@@ -15,17 +15,20 @@ What I Did
 - Used Excel for initial data preparation and validation
 
 Key Metrics
+
 - Total Visits
 - Missing Data Rate
 - Late Visit Rate
 - Problematic Visits
 
 Tools
+
 SQL — joins, aggregation, CASE WHEN
 Power BI — data modelling, DAX measures, dashboards
 Excel — data preparation and validation
 
 Business Value
+
 The dashboard made it easier to identify where data-quality issues were occurring and distinguish between missing information and late reporting, helping managers focus monitoring and improvement activity on the areas with the highest level of problems.
 
 ## Dashboard Preview
